@@ -6,7 +6,7 @@
     <style>
         body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px;}
         .quote-card { border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin-bottom: 15px;}
-        .quote-author { text-align: right; font-weight: bold; }
+        .quote-author {font-weight: bold; }
         form { margin-top: 30px; }
         input, button { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
 
@@ -17,10 +17,9 @@
 
     <h2>Add a New Quote</h2>
     <form action="/addquote" th:action="@{/addquote}"
-    th:object="${newQuote}" method="post">
+    th:object="${quoteFormDTO}" method="post">
         <input type="text" th:field="*{text}" placeholder="Quote Text" required />
-<!--        <input type="text" th:field="*{author}" placeholder="Author" required />-->
-
+         <input type="text" th:field="*{authorName}" placeholder="Author Name" required />
         <input type="text" th:field="*{bookTitle}" placeholder="Book Title" required />
         <button type="submit">Add Quote</button>
     </form>
@@ -30,12 +29,15 @@
     <p>No quotes yet. Be the first to add one!</p>
 </div>
 
+    <!-- Change the display to access the nested objects -->
 <div th:each="quote : ${quotes}">
     <div class ="quote-card">
         <p class="quote-text">
             &quot;<span th:text="${quote.text}"></span>&quot;
         </p>
-        <p class ="quote-title" th:text="${'- ' + quote.bookTitle}"></p>
+        <!-- This is the key change: access book.author.name and book.title -->
+<!--        <p class ="quote-title" th:text="${'- ' + quote.author + ', ' + quote.bookTitle}"></p>-->
+        <p class="quote-author" th:text="${'- ' + quote.book.author.name + ', ' + quote.book.title}"></p>
     </div>
 </div>
 </body>

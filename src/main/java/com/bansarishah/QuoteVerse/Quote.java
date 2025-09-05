@@ -1,9 +1,6 @@
 package com.bansarishah.QuoteVerse;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity// Tells JPA this class is a database table
 public class Quote {
@@ -12,14 +9,30 @@ public class Quote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)// Auto-generates the ID
 
     private Long id;
+
+    @Column(columnDefinition = "TEXT")
     private String text;
-    private String bookTitle;
+
+    /*private String author;
+    private String bookTitle;*/
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
 
     // Getters and Setters... (Your IDE can generate these for you)
     // Right-click -> Generate -> Getters and Setters -> Select all fields
 
     public Quote(){
     }
+
+//    public String getAuthor() {
+//        return author;
+//    }
+//
+//    public void setAuthor(String author) {
+//        this.author = author;
+//    }
 
     public Long getId() {
         return id;
@@ -37,11 +50,20 @@ public class Quote {
         this.text = text;
     }
 
-    public String getBookTitle() {
-        return bookTitle;
+//    public String getBookTitle() {
+//        return bookTitle;
+//    }
+//
+//    public void setBookTitle(String bookTitle) {
+//        this.bookTitle = bookTitle;
+//    }
+
+
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setBook(Book book) {
+        this.book = book;
     }
 }
