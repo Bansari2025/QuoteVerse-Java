@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>QuoteVerse</title>
@@ -15,6 +15,20 @@
 <body>
     <h1>Welcome to QuoteVerse</h1>
 
+    <!-- Login/Logout Links -->
+    <div sec:authorize="isAuthenticated()">
+        Hello, <span sec:authentication="name">User</span>!
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        <a th:href="@{/login}">Login</a> | <a th:href="@{/register}">Register</a>
+    </div>
+
+    <!-- Show the form ONLY if the user is logged in -->
+
+    <div sec:authorize="isAuthenticated()">
     <h2>Add a New Quote</h2>
     <form action="/addquote" th:action="@{/addquote}"
     th:object="${quoteFormDTO}" method="post">
@@ -23,6 +37,7 @@
         <input type="text" th:field="*{bookTitle}" placeholder="Book Title" required />
         <button type="submit">Add Quote</button>
     </form>
+    </div>
 
 <h2>Quotes</h2>
 <div th:if="${quotes.isEmpty()}">
